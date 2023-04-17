@@ -1,13 +1,15 @@
+
 import React, { useState } from 'react'
 import { Typography, TextField, Button, Box, Container } from '@mui/material'
 import axios from 'axios'
-const API_URL = 'https://example.com/api'
+import api from './../services/apiService';
+const API_URL = 'http://localhost:3333'
 
 export const LoginPage = () => {
     const [isCreatingAccount, setIsCreatingAccount] = useState(false)
-    const [username, setUsername] = useState('')
-    const [password, setPassword] = useState('')
-    const [name, setName] = useState('')
+    const [login_user, setLogin_User] = useState('')
+    const [password_user, setPassword_User] = useState('')
+    const [name_user, setName_User] = useState('')
     const [errorMessage, setErrorMessage] = useState('')
 
     const handleSubmit = async (event: React.FormEvent) => {
@@ -15,17 +17,17 @@ export const LoginPage = () => {
         setErrorMessage('')
         try {
             if (isCreatingAccount) {
-                const response = await axios.post(`${API_URL}/users`, {
-                    username,
-                    password,
-                    name,
+                const response = await axios.post(`${API_URL}/newUser`, {
+                    login_user,
+                    password_user,
+                    name_user,
                 })
                 console.log(response.data)
                 // Redirect to success page
             } else {
-                const response = await axios.post(`${API_URL}/auth`, {
-                    username,
-                    password,
+                const response = await axios.post(`${API_URL}/login`, {
+                    login_user,
+                    password_user,
                 })
                 console.log(response.data)
                 // Redirect to success page
@@ -45,12 +47,12 @@ export const LoginPage = () => {
                 </Typography>
                 <Box component="form" onSubmit={handleSubmit} sx={{ mt: 1 }}>
                     {isCreatingAccount && (
-                        <TextField margin="normal" fullWidth id="name" label="Name" name="name" autoComplete="name" autoFocus value={name} onChange={(event) => setName(event.target.value)}
+                        <TextField margin="normal" fullWidth id="name" label="Name" name="name" autoComplete="name" autoFocus value={name_user} onChange={(event) => setName_User(event.target.value)}
                         />
                     )}
-                    <TextField margin="normal" fullWidth id="username" label="Username" name="username" autoComplete="username" autoFocus value={username} onChange={(event) => setUsername(event.target.value)}
+                    <TextField margin="normal" fullWidth id="username" label="Username" name="username" autoComplete="username" autoFocus value={login_user} onChange={(event) => setLogin_User(event.target.value)}
                     />
-                    <TextField margin="normal" fullWidth name="password" label="Password" type="password" id="password" autoComplete="current-password" value={password} onChange={(event) => setPassword(event.target.value)}
+                    <TextField margin="normal" fullWidth name="password" label="Password" type="password" id="password" autoComplete="current-password" value={password_user} onChange={(event) => setPassword_User(event.target.value)}
                     />
                     {errorMessage && (
                         <Typography variant="body2" color="error" sx={{ mt: 1 }}>
